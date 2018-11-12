@@ -72,15 +72,9 @@ class RetrofitManager{
     companion object {
         const val DEFAULT_TIME_OUT:Long = 3000
         const val SERVER_URL = "https://api.douban.com/v2/movie/"
-        var instance:RetrofitManager? = null
-        get() {
-            if(field == null){
-                field = RetrofitManager()
-            }
-            return field
-        }
+        val instance: RetrofitManager by lazy { Holder.INSTANCE }
     }
 
-
+    private object Holder { val INSTANCE = RetrofitManager () }
 
 }
