@@ -30,7 +30,7 @@ import com.annarm.douban.moive.network.service.MovieService
 class HomeActivity : BaseActivity() {
     var unBinder: Unbinder? = null
     var pageIndex:Int = 0
-    private val pageSize:Int = 9
+    private val pageSize:Int = 12
 
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
