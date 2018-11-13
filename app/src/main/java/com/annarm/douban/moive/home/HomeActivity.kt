@@ -1,6 +1,8 @@
 package com.annarm.douban.moive.home
 
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,6 +18,7 @@ import com.annarm.douban.moive.R
 import com.annarm.douban.moive.base.BaseActivity
 import com.annarm.douban.moive.network.BaseObserver
 import com.annarm.douban.moive.network.RetrofitManager
+import com.annarm.douban.moive.network.response.MovieListModal
 import com.annarm.douban.moive.network.service.MovieService
 
 /**
@@ -26,42 +29,41 @@ import com.annarm.douban.moive.network.service.MovieService
  */
 class HomeActivity : BaseActivity() {
     var unBinder: Unbinder? = null
+    var pageIndex:Int = 0
+    private val pageSize:Int = 9
 
-    @BindView(R.id.tv)
-    lateinit var tv: TextView
+    @BindView(R.id.recyclerView)
+    lateinit var recyclerView: RecyclerView
+
+    private var adapter: MovieListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         unBinder = ButterKnife.bind(this)
-        tv.text = "learn Kotlin"
-        var v:View = findViewById(R.id.tv)
-        v.setOnLongClickListener {
-            Toast.makeText(this, "long click", Toast.LENGTH_SHORT).show()
-           true
-        }
-        loadMovies()
+        initView()
+        loadMovies(pageIndex)
     }
 
-    private fun loadMovies() {
-        val observer = RetrofitManager.instance.create(MovieService::class.java).movieList("沈阳", 0, 5)
-        RetrofitManager.instance.toSubscribe(observer, object : BaseObserver<String>() {
+    private fun initView() {
+        adapter = MovieListAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(this , 3)
+    }
+
+    private fun loadMovies(pageIndex:Int) {
+        val observer = RetrofitManager.instance.create(MovieService::class.java).movieList("沈阳", pageIndex*pageSize, pageSize)
+        RetrofitManager.instance.toSubscribe(observer, object : BaseObserver<MovieListModal>() {
             override fun onFailed() {
                 Log.e("request", "failed")
             }
 
-            override fun onSuccess(result: String) {
-                Log.e("request", "success")
+            override fun onSuccess(result: MovieListModal) {
+                Log.e("request", "success" + result.subjects.size)
+                adapter!!.add(result.subjects)
             }
         })
 
-    }
-
-    @OnClick(R.id.tv)
-    fun onClick(view: View) {
-        when (view.id) {
-            R.id.tv -> Toast.makeText(this, "lla", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onDestroy() {

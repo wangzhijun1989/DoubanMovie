@@ -14,5 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 //        Toast.makeText(DMApplication.instance, "kot lin lin a", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 }

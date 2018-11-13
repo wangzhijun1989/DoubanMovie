@@ -1,5 +1,6 @@
 package com.annarm.douban.moive.network.service
 
+import com.annarm.douban.moive.network.response.MovieListModal
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,5 +13,5 @@ import retrofit2.http.Query
  */
 interface MovieService{
     @GET("in_theaters")
-    fun movieList(@Query("city")city:String, @Query("start" )start:Int, @Query("count" )count:Int): Observable<String>
+    fun movieList(@Query("city")city:String, @Query("start" )start:Int, @Query("count" )count:Int): Observable<MovieListModal>
 }
