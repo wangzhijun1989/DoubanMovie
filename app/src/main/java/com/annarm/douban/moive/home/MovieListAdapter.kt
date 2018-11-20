@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide
  */
 class MovieListAdapter() : RecyclerView.Adapter<MovieListHolder>() {
 
-    var data: MutableList<MovieListModal.SubjectsBean> = ArrayList()
+    var data: MutableList<MovieListModal.SubjectsBean> = mutableListOf()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MovieListHolder {
         return MovieListHolder(LayoutInflater.from(p0.context).inflate(R.layout.adapter_movie_list, p0, false))

@@ -1,25 +1,18 @@
 package com.annarm.douban.moive.home
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.text.Editable
-import android.text.TextWatcher
+import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentTransaction
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import butterknife.Unbinder
 import com.annarm.douban.moive.R
 import com.annarm.douban.moive.base.BaseActivity
-import com.annarm.douban.moive.network.BaseObserver
-import com.annarm.douban.moive.network.RetrofitManager
-import com.annarm.douban.moive.network.response.MovieListModal
-import com.annarm.douban.moive.network.service.MovieService
+import com.annarm.douban.moive.base.BaseFragment
+import com.annarm.douban.moive.movie.MovieFragment
+import com.annarm.douban.moive.reading.ReadingFragment
+import com.annarm.douban.moive.tool.ToolFragment
 
 /**
  * description:
@@ -29,41 +22,77 @@ import com.annarm.douban.moive.network.service.MovieService
  */
 class HomeActivity : BaseActivity() {
     var unBinder: Unbinder? = null
-    var pageIndex:Int = 0
-    private val pageSize:Int = 12
+    private var movieFragment: MovieFragment? = null
+    private var readingFragment: ReadingFragment? = null
+    private var toolFragment: ToolFragment? = null
 
-    @BindView(R.id.recyclerView)
-    lateinit var recyclerView: RecyclerView
-
-    private var adapter: MovieListAdapter? = null
+    @BindView(R.id.tabLayout)
+    lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         unBinder = ButterKnife.bind(this)
         initView()
-        loadMovies(pageIndex)
+        setTabSelected(0)
     }
 
     private fun initView() {
-        adapter = MovieListAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(this , 3)
+//        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+//        movieFragment = MovieFragment()
+//        transaction.add(R.id.container, movieFragment)
+//        transaction.commit()
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+                Log.e("wangzhijun", p0!!.position.toString())
+                setTabSelected(p0!!.position)
+            }
+
+        })
     }
 
-    private fun loadMovies(pageIndex:Int) {
-        val observer = RetrofitManager.instance.create(MovieService::class.java).movieList("沈阳", pageIndex*pageSize, pageSize)
-        RetrofitManager.instance.toSubscribe(observer, object : BaseObserver<MovieListModal>() {
-            override fun onFailed() {
-                Log.e("request", "failed")
+    private fun setTabSelected(position: Int) {
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        var currentFragment:BaseFragment? = null
+        when(position){
+            0-> {
+                if (movieFragment == null){
+                    movieFragment = MovieFragment()
+                    transaction.add(R.id.container, movieFragment!!)
+                }
+                currentFragment = movieFragment
             }
-
-            override fun onSuccess(result: MovieListModal) {
-                Log.e("request", "success" + result.subjects.size)
-                adapter!!.add(result.subjects)
+            1->{
+                if (readingFragment == null){
+                    readingFragment = ReadingFragment()
+                    transaction.add(R.id.container, readingFragment!!)
+                }
+                currentFragment = readingFragment
             }
-        })
+            2->{
+                if (toolFragment == null){
+                    toolFragment = ToolFragment()
+                    transaction.add(R.id.container, toolFragment!!)
+                }
+                currentFragment = toolFragment
+            }
+        }
+        hiddenAllFragment(transaction)
+        transaction.show(currentFragment!!)
+        transaction.commit()
+    }
 
+    private fun hiddenAllFragment(transaction: FragmentTransaction) {
+        if (movieFragment != null) transaction.hide(movieFragment!!)
+        if (readingFragment != null) transaction.hide(readingFragment!!)
+        if (toolFragment != null) transaction.hide(toolFragment!!)
     }
 
     override fun onDestroy() {
