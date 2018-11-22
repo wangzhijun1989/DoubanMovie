@@ -49,4 +49,8 @@ open class BaseFragment : Fragment(){
     companion object {
         private const val NO_LAYOUT = -1
     }
+
+    open fun needLoading():Boolean{
+        return false
+    }
 }

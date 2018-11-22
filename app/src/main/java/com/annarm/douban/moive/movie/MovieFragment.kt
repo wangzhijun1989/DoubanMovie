@@ -6,7 +6,6 @@ import android.util.Log
 import butterknife.BindView
 import com.annarm.douban.moive.R
 import com.annarm.douban.moive.base.BaseFragment
-import com.annarm.douban.moive.home.MovieListAdapter
 import com.annarm.douban.moive.network.BaseObserver
 import com.annarm.douban.moive.network.RetrofitManager
 import com.annarm.douban.moive.network.response.MovieListModal

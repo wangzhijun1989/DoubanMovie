@@ -1,11 +1,14 @@
-package com.annarm.douban.moive.home
+package com.annarm.douban.moive.movie
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.annarm.douban.moive.R
@@ -23,7 +26,13 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListHolder>() {
     var data: MutableList<MovieListModal.SubjectsBean> = mutableListOf()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MovieListHolder {
-        return MovieListHolder(LayoutInflater.from(p0.context).inflate(R.layout.adapter_movie_list, p0, false))
+        return MovieListHolder(
+            LayoutInflater.from(p0.context).inflate(
+                R.layout.adapter_movie_list,
+                p0,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -56,10 +65,17 @@ class MovieListHolder : RecyclerView.ViewHolder {
     @BindView(R.id.tv_score)
     lateinit var tvScore: TextView
 
+    @BindView(R.id.ll_container)
+    lateinit var container: LinearLayout
+
+
     fun refresh(subjectsBean: MovieListModal.SubjectsBean) {
         tvName.text = subjectsBean.title
         tvScore.text = subjectsBean.rating.average.toString()
         Glide.with(ivAlbum).load(subjectsBean.images.small).into(ivAlbum)
+        container.setOnClickListener {
+            Log.e("sb", "dasb")
+        }
     }
 
     constructor(view: View) : super(view) {
