@@ -1,2 +1,2 @@
 # DoubanMovie
-kotlin priject
+kotlin project
