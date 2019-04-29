@@ -1,5 +1,6 @@
 package com.annarm.douban.moive.movie
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ import com.bumptech.glide.Glide
  * date 2018/11/13 16:10
  * @version V1.0
  */
-class MovieListAdapter() : RecyclerView.Adapter<MovieListHolder>() {
+class MovieListAdapter : RecyclerView.Adapter<MovieListHolder>() {
 
     var data: MutableList<MovieListModal.SubjectsBean> = mutableListOf()
 
@@ -74,7 +75,9 @@ class MovieListHolder : RecyclerView.ViewHolder {
         tvScore.text = subjectsBean.rating.average.toString()
         Glide.with(ivAlbum).load(subjectsBean.images.small).into(ivAlbum)
         container.setOnClickListener {
-            Log.e("sb", "dasb")
+            val intent:Intent = Intent(container.context, MovieDetailActivity::class.java)
+            intent.putExtra("id", subjectsBean.id)
+            container.context.startActivity(intent)
         }
     }
 

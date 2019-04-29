@@ -15,7 +15,7 @@ import butterknife.Unbinder
  * date 2018/11/20 9:16
  * @version V1.0
  */
-open class BaseFragment : Fragment(){
+open abstract class BaseFragment : Fragment(){
     var unBinder: Unbinder? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,7 +34,7 @@ open class BaseFragment : Fragment(){
             view = inflater.inflate(layout, container, false)
             unBinder = ButterKnife.bind(this, view)
         }
-        init()
+        initialize()
         return view
     }
 
@@ -42,9 +42,7 @@ open class BaseFragment : Fragment(){
         return NO_LAYOUT
     }
 
-    open fun init(){
-
-    }
+    open abstract fun initialize()
 
     companion object {
         private const val NO_LAYOUT = -1

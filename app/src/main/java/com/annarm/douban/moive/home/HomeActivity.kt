@@ -8,6 +8,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.annarm.douban.moive.R
+import com.annarm.douban.moive.annotation.ContentView
 import com.annarm.douban.moive.base.BaseActivity
 import com.annarm.douban.moive.base.BaseFragment
 import com.annarm.douban.moive.movie.MovieFragment
@@ -20,29 +21,21 @@ import com.annarm.douban.moive.tool.ToolFragment
  * date 2018/11/12 13:00
  * @version V1.0
  */
+@ContentView(R.layout.activity_home)
 class HomeActivity : BaseActivity() {
-    var unBinder: Unbinder? = null
+
     private var movieFragment: MovieFragment? = null
     private var readingFragment: ReadingFragment? = null
     private var toolFragment: ToolFragment? = null
-
     @BindView(R.id.tabLayout)
     lateinit var tabLayout: TabLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        unBinder = ButterKnife.bind(this)
+    override fun initialize() {
         initView()
         setTabSelected(0)
     }
 
     private fun initView() {
-//        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-//        movieFragment = MovieFragment()
-//        transaction.add(R.id.container, movieFragment)
-//        transaction.commit()
-
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {
             }
@@ -51,8 +44,8 @@ class HomeActivity : BaseActivity() {
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
-                Log.e("wangzhijun", p0!!.position.toString())
-                setTabSelected(p0!!.position)
+                Log.e("wangzhijun", p0?.position.toString())
+                setTabSelected(p0?.position ?: 0)
             }
 
         })
@@ -93,11 +86,6 @@ class HomeActivity : BaseActivity() {
         if (movieFragment != null) transaction.hide(movieFragment!!)
         if (readingFragment != null) transaction.hide(readingFragment!!)
         if (toolFragment != null) transaction.hide(toolFragment!!)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unBinder!!.unbind()
     }
 
 }

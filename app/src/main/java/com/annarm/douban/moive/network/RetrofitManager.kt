@@ -1,6 +1,5 @@
 package com.annarm.douban.moive.network
 
-import android.util.Log
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.Observable

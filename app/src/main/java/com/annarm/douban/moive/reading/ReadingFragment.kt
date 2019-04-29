@@ -10,6 +10,9 @@ import com.annarm.douban.moive.base.BaseFragment
  * @version V1.0
  */
 class ReadingFragment : BaseFragment(){
+    override fun initialize() {
+    }
+
     override fun layout(): Int {
         return R.layout.fragment_reading
     }
