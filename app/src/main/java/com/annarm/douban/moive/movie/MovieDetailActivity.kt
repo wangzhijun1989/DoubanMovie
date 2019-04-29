@@ -52,7 +52,7 @@ class MovieDetailActivity : BaseActivity() {
 
     private fun initSkeleton() {
         skeleton = Skeleton.bind(llContainer)
-            .load(R.layout.activity_movie_detail)
+            .load(R.layout.skeleton_movie_detail)
             .show()
     }
 

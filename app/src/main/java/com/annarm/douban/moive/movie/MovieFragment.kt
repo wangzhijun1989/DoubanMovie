@@ -55,8 +55,8 @@ class MovieFragment : BaseFragment() {
 
     private fun loadMovies(pageIndex: Int) {
         skeleton.show()
-        val observer =
-            RetrofitManager.instance.create(MovieService::class.java).movieList("沈阳", pageIndex * pageSize, pageSize)
+        val observer = RetrofitManager.instance.create(MovieService::class.java).movieList("沈阳",
+            pageIndex * pageSize, pageSize)
         RetrofitManager.instance.toSubscribe(observer, object : BaseObserver<MovieListModal>() {
             override fun onFailed() {
                 Log.e("request", "failed")

@@ -67,7 +67,7 @@ class MovieListHolder : RecyclerView.ViewHolder {
     lateinit var tvScore: TextView
 
     @BindView(R.id.ll_container)
-    lateinit var container: LinearLayout
+    lateinit var container: View
 
 
     fun refresh(subjectsBean: MovieListModal.SubjectsBean) {
